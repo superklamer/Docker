@@ -1,0 +1,48 @@
+version: '3.7'
+services:
+
+  web1:
+    container_name: web1
+    image: radra/rehl7-ansible:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args: 
+        USERNAME: radra
+        PASSWORD: Superzebra86
+    volumes:
+      - type: bind
+        read_only: true
+        source: C:\GitLab\ansible
+        target: /opt/ansible
+        volume:
+          nocopy: true
+    # networks:
+    #   ansible:
+    #     ipv4_address: 192.168.65.101
+    entrypoint: [ "tail", "-f", "/dev/null" ]
+    restart: unless-stopped
+
+  web2:
+    container_name: web2
+    image: radra/rehl7-ansible:latest
+    volumes:
+      - type: bind
+        read_only: true
+        source: C:\GitLab\ansible
+        target: /opt/ansible
+        volume:
+          nocopy: true
+    # networks:
+    #   ansible:
+    #     ipv4_address: 192.168.65.102
+    entrypoint: [ "tail", "-f", "/dev/null" ]
+    restart: unless-stopped
+
+
+# networks:
+#   ansible:
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: "192.168.65.0/24"
